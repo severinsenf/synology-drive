@@ -39,6 +39,24 @@ Page link : [COPR package](https://copr.fedorainfracloud.org/coprs/emixampp/syno
    3. `sudo dnf install ~/rpmbuild/RPMS/x86_64/synology-drive-noextra-*.x86_64.rpm`
 7. Clean build root : `rm -r ~/rpmbuild`
 
+### Experimental: build the package locally for Aarch64/ARM64 processors (e.g. Apple Silicon, Qualcomm Snapdragon)
+1. Install build tools : `sudo dnf install rpm-build rpmdevtools`
+2. `git clone https://github.com/EmixamPP/synology-drive.git`
+3. `cd synology-drive`
+4. Optional, if you want to change the version:
+   1. Consult the [release notes](https://www.synology.com/en-global/releaseNote/SynologyDriveClient) and choose the desired version (>= 3.2.1-13271)
+   2. Edit the two first lines of `synology-drive.spec` or `synology-drive-noextra.spec`, depending on whether you are running GNOME or another desktop environement. 
+5. For GNOME:
+   1. `spectool -g -R synology-drive-aarch64.spec`
+   2. `rpmbuild -ba synology-drive-aarch64.spec`
+   3. `sudo dnf install ~/rpmbuild/RPMS/x86_64/synology-drive-*.aarch64.rpm`
+6. For other desktop environments: 
+   1. `spectool -g -R synology-drive-aarch64-noextra.spec`
+   2. `rpmbuild -ba synology-drive-aarch64-noextra.spec`
+   3. `sudo dnf install ~/rpmbuild/RPMS/x86_64/synology-drive-noextra-*.aarch64.rpm`
+7. Clean build root : `rm -r ~/rpmbuild`
+**Attention**_**: This solution uses the FEX emulator. If you are using the QEMU emulator it will probalby break because binfmt_misc allows only one emulator to register for x86_64 binaries.
+
 ## Legal information
 Consult the [LICENSE](https://github.com/EmixamPP/synology-drive/blob/main/LICENSE).
 
